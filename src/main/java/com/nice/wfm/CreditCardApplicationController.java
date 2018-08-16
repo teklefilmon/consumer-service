@@ -14,6 +14,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Objects;
 
+import static com.nice.wfm.dto.CreditCardApplicationRequest.CardType.*;
+import static com.nice.wfm.dto.CreditCardApplicationResponse.Status.*;
+
 /**
  * Created on 8/15/18.
  * Author: filmon
@@ -41,9 +44,17 @@ public class CreditCardApplicationController {
                 .path("credit-scores").toUriString();
         CreditScoreResponse creditScoreResponse = restTemplate.postForObject(url, new CreditScoreRequest(ssn), CreditScoreResponse.class);
 
-        if(creditScoreResponse.isCreditScoreHigh() && CreditCardApplicationRequest.CardType.GOLD == creditCardApplicationRequest.getCardType()){
-            return new CreditCardApplicationResponse(CreditCardApplicationResponse.Status.GRANTED);
+        if(creditCardApplicationRequest.getCardType() == GOLD){
+            if(creditScoreResponse.isCreditScoreHigh()){
+                return new CreditCardApplicationResponse(GRANTED);
+            }
+
+            if(creditScoreResponse.isCreditScoreLow()){
+                return new CreditCardApplicationResponse(DENIED);
+            }
         }
+
+
 
         throw new RuntimeException("Rest of logic not implemented");
     }

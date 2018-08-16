@@ -41,4 +41,22 @@ public class ConsumerServiceApplicationTests {
                 .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON));
     }
 
+    @Test
+    public void applicationShouldBeDeniedWhenCreditScoreIsLow() throws Exception {
+        mockMvc.perform(
+                post("/credit-card-applications")
+                        .contentType(APPLICATION_JSON)
+                        .content("{" +
+                                "\"ssn\":\"12-34-5679\"," +
+                                "\"cardType\":\"GOLD\"" +
+                                "}"
+                        ))
+                .andExpect(status().isOk())
+                .andExpect(content()
+                        .json("{" +
+                                "\"status\":\"DENIED\"" +
+                                "}"))
+                .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON));
+    }
+
 }

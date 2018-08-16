@@ -19,10 +19,14 @@ public class CreditScoreResponse {
     }
 
     private enum CreditScore {
-        HIGH
+        HIGH, LOW
     }
 
     public boolean isCreditScoreHigh(){
         return CreditScore.HIGH.equals(this.creditScore);
+    }
+
+    public boolean isCreditScoreLow(){
+        return CreditScore.LOW.equals(this.creditScore);
     }
 }

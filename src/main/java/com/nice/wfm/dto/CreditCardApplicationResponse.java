@@ -17,6 +17,6 @@ public class CreditCardApplicationResponse {
     }
 
     public enum Status{
-        GRANTED
+        GRANTED, DENIED
     }
 }
